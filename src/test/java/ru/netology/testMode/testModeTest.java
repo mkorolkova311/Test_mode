@@ -2,18 +2,9 @@ package ru.netology.testMode;
 
 
 import com.codeborne.selenide.Condition;
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.filter.log.LogDetail;
-import io.restassured.http.ContentType;
-import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Test;
-
-import java.beans.PropertyEditor;
-
-import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
-import static org.hamcrest.Matchers.equalTo;
-import static io.restassured.RestAssured.given;
+
 
 public class testModeTest {
     private LoginToAccountInfo user_pass = DataGenerator.generatelogin("en");
@@ -23,7 +14,7 @@ public class testModeTest {
 void shouldLoginToAccount(){
         DataGenerator.createAccount(user_pass);
         open("http://localhost:7777/");
-        $("[data-test-id=login] input").setValue(user_pass.getName());
+        $("[data-test-id=login] input").setValue(user_pass.getLogin());
         $("[data-test-id=password] input").setValue(user_pass.getPassword());
         $("[data-test-id=action-login]").click();
         $("[id=root]").shouldHave(Condition.exactText("Личный кабинет"));
@@ -33,7 +24,7 @@ void shouldLoginToAccount(){
     void shouldNotValidPassword() {
         DataGenerator.createAccount(user_pass);
         open("http://localhost:7777/");
-        $("[data-test-id=login] input").setValue(user_pass.getName());
+        $("[data-test-id=login] input").setValue(user_pass.getLogin());
         String np = user_pass.getPassword() + "12";
         System.out.println(np);
         $("[data-test-id=password] input").setValue(np);
@@ -46,7 +37,7 @@ void shouldLoginToAccount(){
     void shouldNotValidLogin() {
         DataGenerator.createAccount(user_pass);
         open("http://localhost:7777/");
-        String nl = user_pass.getName() + "abc";
+        String nl = user_pass.getLogin() + "abc";
         System.out.println(nl);
         $("[data-test-id=login] input").setValue(nl);
         $("[data-test-id=password] input").setValue(user_pass.getPassword());
@@ -60,7 +51,7 @@ void shouldLoginToAccount(){
     void shouldBlockedUser(){
         DataGenerator.createAccount(user_blocked);
         open("http://localhost:7777/");
-        $("[data-test-id=login] input").setValue(user_blocked.getName());
+        $("[data-test-id=login] input").setValue(user_blocked.getLogin());
         $("[data-test-id=password] input").setValue(user_blocked.getPassword());
         $("[data-test-id=action-login]").click();
         $("[data-test-id=error-notification]").waitUntil(Condition.visible,5000);

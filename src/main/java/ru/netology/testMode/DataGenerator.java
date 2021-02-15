@@ -6,8 +6,7 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import lombok.NoArgsConstructor;
-import org.junit.jupiter.api.BeforeAll;
+
 
 import java.util.Locale;
 
